@@ -51,7 +51,7 @@ class SongsController extends FOSRestController
         $song->setArtist($artist);
 
         $manager = $this->getDoctrine()->getManager();
-        $manager->persist($entity);
+        $manager->persist($song);
         try {
             $manager->flush();
         } catch (Exception $e) {

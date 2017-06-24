@@ -34,7 +34,7 @@ class ArtistsController extends FOSRestController
          $artist->setName($request->get('name'));
 
          $manager = $this->getDoctrine()->getManager();
-         $manager->persist($entity);
+         $manager->persist($artist);
          try {
              $manager->flush();
          } catch (Exception $e) {
