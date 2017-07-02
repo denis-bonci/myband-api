@@ -14,7 +14,6 @@ class ArtistsControllerTest extends WebTestCase
     public function addNewArtist()
     {
         $client = static::createClient();
-
         $url = $client->getContainer()->get('router')->generate('app_artists_post');
 
         $client->request(
@@ -27,11 +26,9 @@ class ArtistsControllerTest extends WebTestCase
         );
 
         $response = $client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-
         $content = json_decode($response->getContent());
 
+        $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals($this->artist, $content->name);
     }
 
@@ -46,11 +43,19 @@ class ArtistsControllerTest extends WebTestCase
         $client->request('GET', $url);
 
         $response = $client->getResponse();
-
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode($response->getContent());
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
-        //$this->assertArrayHasKey('foo', ['bar' => 'baz']);
+
+        $skyfix = false;
+
+        foreach ($content as $artist) {
+          if ($artist->name == $this->artist) {
+            $skyfix = true;
+          }
+        }
+
+        $this->assertTrue($skyfix);
     }
 }
